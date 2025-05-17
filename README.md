@@ -35,6 +35,31 @@ Este proyecto es una plataforma web desarrollada con Django para Expidex. El sis
 ### 🔹 Pasos para desarrollo local:
 
 1. Clonar el repositorio:
-   ```bash
+    ```bash
    git clone https://github.com/tu-usuario/expidex-inventario.git
    cd expidex-inventario
+
+2. Crear entorno virtual:
+    ```bash
+   python -m venv env
+   env\Scripts\activate   # En Windows
+
+3. Instalar dependencias
+    ```bash
+   pip install django
+
+4. Ejecutar migraciones 
+    ```bash
+   python manage.py makemigrations
+   python manage.py migrate
+
+5. Crear superusuario
+    ```bash
+   python manage.py createsuperuser
+
+6. Ejecutar el servidor 
+    ```bash
+   python manage.py runserver
+
+
+
