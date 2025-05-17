@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Movimientos de Inventario</title>
+</head>
+<body>
+    <h2>Historial de Movimientos</h2>
+
+    <!-- FILTROS -->
+    <h3>Filtrar movimientos</h3>
+    <form method="get">
+        <label for="tipo">Tipo:</label>
+        <select name="tipo" id="tipo">
+            <option value="">Todos</option>
+            <option value="ENTRADA" {% if tipo == 'ENTRADA' %}selected{% endif %}>Entrada</option>
+            <option value="SALIDA" {% if tipo == 'SALIDA' %}selected{% endif %}>Salida</option>
+        </select>
+
+        <label for="producto">Producto:</label>
+        <select name="producto" id="producto">
+            <option value="">Todos</option>
+            {% for p in productos %}
+                <option value="{{ p.id }}" {% if producto_id == p.id|stringformat:"s" %}selected{% endif %}>{{ p.nombre }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="desde">Desde:</label>
+        <input type="date" name="desde" id="desde" value="{{ desde }}">
+
+        <label for="hasta">Hasta:</label>
+        <input type="date" name="hasta" id="hasta" value="{{ hasta }}">
+
+        <button type="submit">Filtrar</button>
+    </form>
+
+    <!-- BOTÓN EXPORTAR A EXCEL -->
+    <form method="get" action="{% url 'exportar_movimientos_excel' %}" style="margin-top: 10px;">
+        <button type="submit">Exportar a Excel</button>
+    </form>
+
+    <hr>
+
+    <!-- TABLA -->
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>Producto</th>
+            <th>Tipo</th>
+            <th>Cantidad</th>
+            <th>Usuario</th>
+            <th>Fecha</th>
+            <th>Observaciones</th>
+        </tr>
+        {% for movimiento in movimientos %}
+        <tr>
+            <td>{{ movimiento.producto.nombre }}</td>
+            <td>{{ movimiento.get_tipo_display }}</td>
+            <td>{{ movimiento.cantidad }}</td>
+            <td>{{ movimiento.usuario }}</td>
+            <td>{{ movimiento.fecha|date:"d/m/Y H:i" }}</td>
+            <td>{{ movimiento.observaciones|default:"-" }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">No hay movimientos registrados.</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+    <a href="{% url 'dashboard' %}">Volver al Dashboard</a>
+</body>
+</html>

@@ -9,7 +9,9 @@
     <p>Has iniciado sesión como: {{ request.user.get_rol_display }}</p>
 
     <ul>
-        <li><a href="/usuarios/logout/">Cerrar sesión</a></li>
+        <li><a href="{% url 'registrar_movimiento' %}">Registrar movimiento de inventario</a></li>
+        <li><a href="{% url 'listar_movimientos' %}">Ver historial de movimientos</a></li>
+        <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
     </ul>
 </body>
 </html>
